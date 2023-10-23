@@ -9,8 +9,17 @@ import { addUser } from "../../Action";
 import addReducer from "../../Reducers/addReducer";
 
 function Add() {
-
   const Employeedata = useSelector((state) => state.addReducer);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = Employeedata.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(Employeedata.length / recordsPerPage);
+  const numbers = [...Array(npage + 1).keys()].slice(1);
+
+  
   var [formData, setFormData] = useState({
     id: getNewId(),
     name: "",
@@ -30,7 +39,7 @@ function Add() {
   const dispatch = useDispatch();
 
   function getNewId() {
-    return Employeedata.length + 1;  
+    return Employeedata.length + 1;
   }
   const checkErrors = () => {
     var validationErrors = {};
@@ -79,26 +88,22 @@ function Add() {
   };
 
   const handleInput = (event) => {
-    //setName(event.target.value);
     const { name, value } = event.target;
     formData.name = value;
   };
 
   const onChangeHandler = (event) => {
-    // setAge(event.target.value);
     const { name, value } = event.target;
     formData.age = value;
   };
 
   const handleGenderChange = (event) => {
-    //gender = e.value;
     const { name, value } = event.value;
     formData.gender = event.value;
     console.log(formData.gender, event.value);
   };
 
   const handleDepartmentChange = (e) => {
-    //department = e.value;
     const { name, value } = e.value;
     formData.department = e.value;
   };
@@ -131,7 +136,6 @@ function Add() {
                   <input
                     type="text"
                     className="form-control"
-                    // value={name}
                     onChange={handleInput}
                     autoComplete="off"
                   />
@@ -148,7 +152,6 @@ function Add() {
                     type="number"
                     className="form-control"
                     onChange={onChangeHandler}
-                    // value={age}
                     autoComplete="off"
                   />
                   {errors.age && (
@@ -245,16 +248,16 @@ function Add() {
             </tr>
           </thead>
           <tbody>
-            {Employeedata.map((user, index) => (
+            {records.map((user, index) => (
               <tr key={index}>
-                <td>{index+1}</td>
+                <td>{index + 1}</td>
                 <td>{user.name}</td>
                 <td>{user.age}</td>
                 <td>{user.gender}</td>
                 <td>{user.department}</td>
                 <td>
                   <Link
-                    to={"/edit/"+(index+1)}
+                    to={"/edit/" + (index + 1)}
                     className="btn btn-sm btn-primary"
                   >
                     Edit
@@ -264,9 +267,42 @@ function Add() {
             ))}
           </tbody>
         </table>
+        <nav>
+          <ul className="pagination">
+            <li className="page-item">
+              <a href="#" className="page-link" onClick={prePage}>
+                Prev
+              </a>
+            </li>
+            {numbers.map((n, index) => (
+              <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={index}>
+<a href="#" className="page-item"
+onClick={changeCPage(n)}>{n}</a>
+              </li>
+            ))
+            }
+            <li className="page-item">
+              <a href="#" className="page-link"
+              onClick={nextPage}>Next</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );
+
+  function prePage(){
+
+  }
+
+  function changeCPage(id){
+
+  }
+
+  function nextPage(){
+
+  }
+  
 }
 
 export default Add;

@@ -6,3 +6,12 @@ export const addUser = (data) => {
         },
     };
 };
+
+export const updateUser = (data) =>{
+    return{
+        type:'updateUser',
+        payload: {
+            data: data,
+        },
+    };
+};
