@@ -276,7 +276,7 @@ function Add() {
             </li>
             {numbers.map((n, index) => (
               <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={index}>
-<a href="#" className="page-item"
+<a href="#" className="page-link"
 onClick={changeCPage(n)}>{n}</a>
               </li>
             ))
@@ -292,15 +292,19 @@ onClick={changeCPage(n)}>{n}</a>
   );
 
   function prePage(){
-
+if(currentPage !== 1){
+  setCurrentPage(currentPage-1)
+}
   }
 
   function changeCPage(id){
-
+setCurrentPage(id)
   }
 
   function nextPage(){
-
+if(currentPage !== npage){
+  setCurrentPage(currentPage + 1)
+}
   }
   
 }
