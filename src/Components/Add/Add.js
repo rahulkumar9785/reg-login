@@ -10,16 +10,31 @@ import addReducer from "../../Reducers/addReducer";
 
 function Add() {
   const Employeedata = useSelector((state) => state.addReducer);
+  console.log(Employeedata);
+  function prePage() {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  function changeCPage(id) {
+    setCurrentPage(id);
+  }
+
+  function nextPage() {
+    if (currentPage !== npage) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
 
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const recordsPerPage = 3;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const records = Employeedata.slice(firstIndex, lastIndex);
   const npage = Math.ceil(Employeedata.length / recordsPerPage);
   const numbers = [...Array(npage + 1).keys()].slice(1);
 
-  
   var [formData, setFormData] = useState({
     id: getNewId(),
     name: "",
@@ -245,6 +260,7 @@ function Add() {
               <th>Age</th>
               <th>Gender</th>
               <th>Department</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -275,38 +291,31 @@ function Add() {
               </a>
             </li>
             {numbers.map((n, index) => (
-              <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={index}>
-<a href="#" className="page-link"
-onClick={changeCPage(n)}>{n}</a>
+              <li
+                className={`page-item ${currentPage === n ? "active" : ""}`}
+                key={index}
+              >
+                <a
+                  href="#"
+                  className="page-link"
+                  onClick={() => {
+                    changeCPage(n);
+                  }}
+                >
+                  {n}
+                </a>
               </li>
-            ))
-            }
+            ))}
             <li className="page-item">
-              <a href="#" className="page-link"
-              onClick={nextPage}>Next</a>
+              <a href="#" className="page-link" onClick={nextPage}>
+                Next
+              </a>
             </li>
           </ul>
         </nav>
       </div>
     </div>
   );
-
-  function prePage(){
-if(currentPage !== 1){
-  setCurrentPage(currentPage-1)
-}
-  }
-
-  function changeCPage(id){
-setCurrentPage(id)
-  }
-
-  function nextPage(){
-if(currentPage !== npage){
-  setCurrentPage(currentPage + 1)
-}
-  }
-  
 }
 
 export default Add;

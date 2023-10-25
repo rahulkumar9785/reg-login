@@ -7,11 +7,16 @@ import addReducer from "./Reducers/addReducer";
 import { updateUser } from "./Action";
 
 const Update = () => {
-  const { index } = useParams();
+  const { id } = useParams();
+  console.log(id);
   const Employeedata = useSelector((state) => state.addReducer);
-  const existingUser = Employeedata.filter((f) => f.index == index);
-  const existingUser1 = existingUser[0];
-  const { id, name, age, gender, department } = existingUser1;
+  const existingUser = Employeedata.filter((f, index) => {
+    console.log(index);
+    return index + 1 == id;
+  });
+  const existingUser1 = Employeedata[+id - 1];
+  console.log(existingUser1, Employeedata, +id);
+  const { idx, name, age, gender, department } = existingUser1;
   const dispatch = useDispatch();
 
   const [uname, setName] = useState(name);
@@ -19,7 +24,7 @@ const Update = () => {
   var ugender;
   var udepartment;
   var [formData, setFormData] = useState({
-    id: id,
+    id: +id,
     name: uname,
     age: uage,
     gender: gender,
@@ -60,7 +65,7 @@ const Update = () => {
   };
 
   const handleDepartmentChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.value;
     formData.department = e.value;
   };
 
@@ -138,7 +143,7 @@ const Update = () => {
                       placeholder={department}
                       value={udepartment}
                       options={options1}
-                      onChange={(e) => handleDepartmentChange}
+                      onChange={(e) => handleDepartmentChange(e)}
                     ></Select>
                   </div>
                 </Col>
