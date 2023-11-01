@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./Add.css";
 import { Modal, ModalBody, ModalHeader, Row, Col } from "reactstrap";
 import Select from "react-select";
-import { Link, useNavigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../Action";
 import addReducer from "../../Reducers/addReducer";
+import axios from "axios";
 
 function Add() {
-  const Employeedata = useSelector((state) => state.addReducer);
+  const [Employeedata, setEmployeedata] = useState([])
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetch())
+},[Employeedata])
+
+  const Employeedata1 = useSelector((state) => state.addReducer);
+  setEmployeedata(Employeedata1)
   console.log(Employeedata);
   function prePage() {
     if (currentPage !== 1) {
@@ -43,6 +52,7 @@ function Add() {
     department: "",
   });
 
+
   const [modal, setmodal] = useState(false);
   const [name, setName] = useState(" ");
   const [age, setAge] = useState("");
@@ -51,7 +61,7 @@ function Add() {
 
   var [errors, setErrors] = useState({});
 
-  const dispatch = useDispatch();
+  
 
   function getNewId() {
     return Employeedata.length + 1;
@@ -266,14 +276,14 @@ function Add() {
           <tbody>
             {records.map((user, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
+                <td>{recordsPerPage * (currentPage-1) + index + 1}</td>
                 <td>{user.name}</td>
                 <td>{user.age}</td>
                 <td>{user.gender}</td>
                 <td>{user.department}</td>
                 <td>
                   <Link
-                    to={"/edit/" + (index + 1)}
+                    to={"/edit/" + (recordsPerPage * (currentPage-1) + index + 1)}
                     className="btn btn-sm btn-primary"
                   >
                     Edit

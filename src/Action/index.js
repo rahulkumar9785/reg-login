@@ -1,3 +1,4 @@
+import axios from 'axios'
 export const addUser = (data) => {
     return {
         type: 'addtolist',
@@ -15,3 +16,13 @@ export const updateUser = (data) =>{
         },
     };
 };
+
+export const fetch = () => {
+    return async (dispatch) => {
+        const request = axios.get("https://localhost:7258/api/Form");
+        dispatch({
+            type:"FETCH",
+            payload: request.data
+        })
+    }
+}

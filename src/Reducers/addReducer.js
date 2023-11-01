@@ -1,3 +1,4 @@
+
 const addReducer = (state = [], action) => {
   switch (action.type) {
     case "addtolist":
@@ -17,6 +18,11 @@ const addReducer = (state = [], action) => {
           data.department = action.payload.data.department;
         }
       });
+      return state;
+
+      case "FETCH":
+            state.push(action.payload);
+            console.log(action.payload);
       return state;
 
     default:
